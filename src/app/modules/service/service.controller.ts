@@ -55,8 +55,31 @@ const getSingleService = async (req: Request, res: Response) => {
   }
 };
 
+const updateSingleService = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { completionDate } = req.body;
+    const result = await serviceRecordServices.updateSingleService(
+      id,
+      completionDate
+    );
+    res.status(200).json({
+      success: true,
+      message: "Service marked as completed!",
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err?.message || "Something went wrong",
+      error: err,
+    });
+  }
+};
+
 export const serviceRecordControllers = {
   createService,
   getAllServices,
   getSingleService,
+  updateSingleService,
 };
