@@ -13,9 +13,14 @@ const getAllCustomers = async () => {
 
 const getSingleCustomer = async (req: Request) => {
   const { id } = req.params;
-  const result = await prisma.customer.findUniqueOrThrow({
+  const result = await prisma.customer.findUnique({
     where: { customerId: id },
   });
+
+  if (!result) {
+    throw new Error("Customer Not Found");
+  }
+
   return result;
 };
 
@@ -26,6 +31,10 @@ const updateSingleCustomer = async (req: Request) => {
     where: { customerId: id },
     data,
   });
+
+  if (!result) {
+    throw new Error("Customer Not Found");
+  }
   return result;
 };
 
@@ -34,6 +43,10 @@ const deleteSingleCustomer = async (req: Request) => {
   const result = await prisma.customer.delete({
     where: { customerId: id },
   });
+
+  if (!result) {
+    throw new Error("Customer Not Found");
+  }
   return result;
 };
 

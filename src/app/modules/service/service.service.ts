@@ -12,9 +12,12 @@ const getAllServices = async () => {
 
 const getSingleService = async (id: string) => {
   //   const { id } = req.params;
-  const result = await prisma.serviceRecord.findUniqueOrThrow({
+  const result = await prisma.serviceRecord.findUnique({
     where: { serviceId: id },
   });
+  if (!result) {
+    throw new Error("Service Record Not Found");
+  }
   return result;
 };
 
@@ -28,6 +31,10 @@ const updateSingleService = async (id: string, completionDate?: string) => {
       status: "done",
     },
   });
+
+  if (!result) {
+    throw new Error("Service Record Not Found");
+  }
   return result;
 };
 

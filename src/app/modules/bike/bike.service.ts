@@ -12,9 +12,13 @@ const getAllBikes = async () => {
 
 const getSingleBike = async (id: string) => {
   //   const { id } = req.params;
-  const result = await prisma.bike.findUniqueOrThrow({
+  const result = await prisma.bike.findUnique({
     where: { bikeId: id },
   });
+
+  if (!result) {
+    throw new Error("Bike Not Found");
+  }
   return result;
 };
 
