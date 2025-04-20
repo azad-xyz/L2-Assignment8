@@ -38,9 +38,29 @@ const updateSingleService = async (id: string, completionDate?: string) => {
   return result;
 };
 
+const getPendingAndOverdueServices = async () => {
+  const sevendaysAgo = new Date();
+  sevendaysAgo.setDate(sevendaysAgo.getDate() - 7);
+
+  console.log("Querying services older than:", sevendaysAgo);
+
+  const result = await prisma.serviceRecord.findMany({
+    where: {
+      status: {
+        in: ["pending", "in_progress"],
+      },
+      serviceDate: {
+        lt: sevendaysAgo,
+      },
+    },
+  });
+  return result;
+};
+
 export const serviceRecordServices = {
   createService,
   getAllServices,
   getSingleService,
   updateSingleService,
+  getPendingAndOverdueServices,
 };

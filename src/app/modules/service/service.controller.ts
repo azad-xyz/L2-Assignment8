@@ -77,9 +77,28 @@ const updateSingleService = async (req: Request, res: Response) => {
   }
 };
 
+const getPendingAndOverdueServices = async (req: Request, res: Response) => {
+  try {
+    //console.log(req.body);
+    const result = await serviceRecordServices.getPendingAndOverdueServices();
+    res.status(200).json({
+      success: true,
+      message: "Overdue or pending services fetched successfully",
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err?.message || "Something went wrong",
+      error: err,
+    });
+  }
+};
+
 export const serviceRecordControllers = {
   createService,
   getAllServices,
   getSingleService,
   updateSingleService,
+  getPendingAndOverdueServices,
 };

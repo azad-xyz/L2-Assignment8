@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts"
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "generate": "prisma generate",
+    "build": "yarn generate && tsc"
   },
   "dependencies": {
     "@prisma/client": "^6.6.0",
